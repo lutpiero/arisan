@@ -1,0 +1,158 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} UI Forms {% endblock %} 
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+<div class="content">
+    <div class="page-inner">
+        <div class="page-header">
+            <h4 class="page-title">Transactions</h4>
+            <ul class="breadcrumbs">
+                <li class="nav-home">
+                    <a href="#">
+                        <i class="flaticon-home"></i>
+                    </a>
+                </li>
+                <li class="separator">
+                    <i class="flaticon-right-arrow"></i>
+                </li>
+                <li class="nav-item">
+                    <a href="{{url_for('user.users')}}">Transactions</a>
+                </li>
+                <li class="separator">
+                    <i class="flaticon-right-arrow"></i>
+                </li>
+                <li class="nav-item">
+                    <a href="#">List</a>
+                </li>
+            </ul>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="d-flex align-items-center">
+                            <h4 class="card-title">Add Transaction</h4>
+                            <button class="btn btn-primary btn-round ml-auto" data-toggle="modal" data-target="#addRowModal">
+                                <i class="fa fa-plus"></i>
+                                Add
+                            </button>
+                        </div>
+                        <div class="modal fade" id="addRowModal" tabindex="-1" role="dialog" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header no-bd">
+                                        <h5 class="modal-title">
+                                            <span class="fw-mediumbold">
+                                            {{ _('New') }}</span> 
+                                            <span class="fw-light">
+                                            {{ _('Transaction') }}
+                                            </span>
+                                        </h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p class="small">{{ _('Add New Transaction') }}</p>
+                                        {% include 'treasurer/add_form.html' %}
+                                    </div>
+                                    <div class="modal-footer no-bd">
+                                        <button type="button" id="addRowButton" class="btn btn-primary">Add</button>
+                                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body px-0 px-sm-0 px-xs-0 px-lg-3">
+                        <div class="table-responsive">
+                            <table id="transactions-table w-100" class="table mt-3">
+                                <thead>
+                                    <tr>
+                                        <th scope="col" class=" d-none d-lg-table-cell d-sm-none">ID</th>
+                                        <th scope="col" class=" d-none d-lg-table-cell d-sm-none">Transaction At</th>
+                                        <th scope="col" class=" d-none d-lg-table-cell d-sm-none">Owner</th>                                        
+                                        <th scope="col" class=" d-none d-lg-table-cell d-sm-none">Description</th>
+                                        <th scope="col" class=" d-none d-lg-table-cell d-sm-none">Debit</th>
+                                        <th scope="col" class=" d-none d-lg-table-cell d-sm-none">Credit</th>
+                                        <th scope="col" class=" d-none d-lg-table-cell d-sm-none">Action</th>
+                                    </tr>
+                                </thead>
+                                
+                                <tbody>
+                                    {% for trx in transactions %}
+                                    <tr>
+                                        <td class="mx-sm-0 px-sm-0 text-right">
+                                            <p class="d-none d-lg-table-cell d-sm-none">{{ trx.id }}</p>
+                                            <div class="card d-block d-lg-none d-sm-block mb-sm-0">
+                                                <div class="card-header text-left">
+                                                    <div class="h3">{{ trx.owner }}</div>
+                                                    <div class="h6">{{ trx.account }}</div>
+                                                </div>
+                                                <div class="card-body text-left">
+                                                    <div>{{ trx.trx_at|iso8601_to_time|datetimeformat(config['DATE_TIME_FORMAT']) }}</div>
+                                                    <div class="h2 {% if trx.status == 'CONFIRMED' %} text-success {% else %} text-warning {% endif %}">{% if trx.debit %} {{ trx.debit | intcomma }} {% else %} {{ trx.credit | intcomma }} {% endif %}</div>
+                                                    <div>{{ trx.status }}</div>
+                                                    <div id="action-phone">            
+                                                        {% if trx.status != 'CONFIRMED' %}                                            
+                                                        <a href="" type="button" data-toggle="tooltip" title="" class="btn btn-link btn-primary btn-lg px-0 pt-3" data-original-title="{{_('Accepted')}}">
+                                                            <span class="fa-stack fa-lg">
+                                                                <i class="far fa-square fa-stack-2x"></i>
+                                                                <i class="far fa-thumbs-up fa-stack-1x"></i>
+                                                            </span>
+                                                        </a>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="text-sm-left d-none d-lg-table-cell d-sm-none">{{ trx.trx_at }}</td>
+                                        <td class="text-sm-left d-none d-lg-table-cell d-sm-none">{{ trx.owner }}</td>
+                                        <td class="text-sm-left d-none d-lg-table-cell d-sm-none">{{ trx.description }}</td>
+                                        <td class="text-sm-right d-none d-lg-table-cell d-sm-none">{{ trx.debit | intcomma  }}</td>
+                                        <td class="text-sm-right d-none d-lg-table-cell d-sm-none">{{ trx.credit | intcomma  }}</td>
+                                        <td class="text-sm-left d-none d-lg-table-cell d-sm-none">
+                                            <div class="form-button-action">
+                                                <a href="" type="button" data-toggle="tooltip" title="" class="btn btn-link btn-primary btn-lg" data-original-title="Edit User">
+                                                    <i class="fa fa-edit"></i>
+                                                </a>
+                                                <button type="button" data-toggle="tooltip" title="" class="btn btn-link btn-danger" data-original-title="Deactivate">
+                                                    <i class="fa fa-times"></i>
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+
+    <!-- Atlantis DEMO methods, don't include it in your project! -->
+    <script src="/static/assets/js/setting-demo2.js"></script>
+    
+	<script >
+		$(document).ready(function() {
+            $('#transactions-table').DataTable({
+				"pageLength": 5,
+                "columnDefs": [
+                    { "className": "text-right", "targets": [0, 2] } // Right align ID and Age columns
+                ]
+			});
+        });
+    </script>
+
+{% endblock javascripts %}

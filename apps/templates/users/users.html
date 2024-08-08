@@ -1,0 +1,165 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} UI Forms {% endblock %} 
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+<div class="content">
+    <div class="page-inner">
+        <div class="page-header">
+            <h4 class="page-title">Users</h4>
+            <ul class="breadcrumbs">
+                <li class="nav-home">
+                    <a href="#">
+                        <i class="flaticon-home"></i>
+                    </a>
+                </li>
+                <li class="separator">
+                    <i class="flaticon-right-arrow"></i>
+                </li>
+                <li class="nav-item">
+                    <a href="#">Users</a>
+                </li>
+                <li class="separator">
+                    <i class="flaticon-right-arrow"></i>
+                </li>
+                <li class="nav-item">
+                    <a href="#">List</a>
+                </li>
+            </ul>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="d-flex align-items-center">
+                            <h4 class="card-title">Add Row</h4>
+                            <button class="btn btn-primary btn-round ml-auto" data-toggle="modal" data-target="#addRowModal">
+                                <i class="fa fa-plus"></i>
+                                Add Row
+                            </button>
+                        </div>
+                    </div>
+                    <div class="card-body px-0 px-sm-0 px-xs-0 px-lg-3">
+                        <!-- Modal -->
+                        <div class="modal fade" id="addRowModal" tabindex="-1" role="dialog" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header no-bd">
+                                        <h5 class="modal-title">
+                                            <span class="fw-mediumbold">
+                                            {{ _('New') }}</span> 
+                                            <span class="fw-light">
+                                            {{ _('Transaction') }}
+                                            </span>
+                                        </h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p class="small">{{ _('Add New User') }}</p>
+                                        <form>
+                                            <div class="row">
+                                                <div class="col-sm-12">
+                                                    <div class="form-group form-group-default">
+                                                        <label>Name</label>
+                                                        <input id="addName" type="text" class="form-control" placeholder="fill name">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6 pr-0">
+                                                    <div class="form-group form-group-default">
+                                                        <label>Position</label>
+                                                        <input id="addPosition" type="text" class="form-control" placeholder="fill position">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group form-group-default">
+                                                        <label>Office</label>
+                                                        <input id="addOffice" type="text" class="form-control" placeholder="fill office">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div class="modal-footer no-bd">
+                                        <button type="button" id="addRowButton" class="btn btn-primary">Add</button>
+                                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="table-responsive">
+                            <table id="user-list" class="table table-striped table-bordered mt-3">
+                                <thead>
+                                    <tr>
+                                        <th scope="col" class=" d-none d-lg-table-cell d-sm-none">ID</th>
+                                        <th scope="col" class=" d-none d-lg-table-cell d-sm-none">Username</th>
+                                        <th scope="col" class=" d-none d-lg-table-cell d-sm-none">Email</th>
+                                        <th scope="col" class=" d-none d-lg-table-cell d-sm-none">Roles</th>
+                                        <th scope="col" class=" d-none d-lg-table-cell d-sm-none">Actions</th>
+                                    </tr>
+                                </thead>
+                                
+                                <tbody>
+                                    {% for user in users %}
+                                    <tr>
+                                        <td class="text-sm-left">
+                                            {{ user.id }}
+                                            <div class="card d-none d-lg-none d-sm-block">
+                                                <div class="card-header">
+                                                    {{ user.username }}
+                                                </div>
+                                                <div class="card-body">
+                                                    Email: {{ user.email }}
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="text-sm-left d-none d-lg-table-cell d-sm-none">{{ user.username }}</td>
+                                        <td class="text-sm-left d-none d-lg-table-cell d-sm-none">{{ user.email }}</td>
+                                        <td class="text-sm-left d-none d-lg-table-cell d-sm-none">
+                                            {% for role in user.roles %}
+                                                {{ role.name }}{% if not loop.last %}, {% endif %}
+                                            {% endfor %}
+                                        </td>
+                                        <td class="text-sm-left d-none d-lg-table-cell d-sm-none">
+                                            <div class="form-button-action">
+                                                <a href="{{url_for('user.edit_user',user_id=user.id)}}" type="button" data-toggle="tooltip" title="" class="btn btn-link btn-primary btn-lg" data-original-title="Edit User">
+                                                    <i class="fa fa-edit"></i>
+                                                </a>
+                                                <button type="button" data-toggle="tooltip" title="" class="btn btn-link btn-danger" data-original-title="Deactivate">
+                                                    <i class="fa fa-times"></i>
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+
+    <!-- Atlantis DEMO methods, don't include it in your project! -->
+    <script src="/static/assets/js/setting-demo2.js"></script>
+    
+	<script >
+		$(document).ready(function() {
+            $('#user-list').DataTable({
+				"pageLength": 5,
+              
+			});
+        });
+    </script>
+
+{% endblock javascripts %}

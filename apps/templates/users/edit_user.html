@@ -1,0 +1,94 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} UI Forms {% endblock %} 
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+<div class="content">
+    <div class="page-inner">
+        <div class="page-header">
+            <h4 class="page-title">Users</h4>
+            <ul class="breadcrumbs">
+                <li class="nav-home">
+                    <a href="#">
+                        <i class="flaticon-home"></i>
+                    </a>
+                </li>
+                <li class="separator">
+                    <i class="flaticon-right-arrow"></i>
+                </li>
+                <li class="nav-item">
+                    <a href="{{url_for('user.users')}}">Users</a>
+                </li>
+                <li class="separator">
+                    <i class="flaticon-right-arrow"></i>
+                </li>
+                <li class="nav-item">
+                    <a href="#">Edit</a>
+                </li>
+            </ul>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <form method="post" action="">
+                    {{ form.hidden_tag() }}
+                    <div>
+                        {{ form.username.label }}<br>
+                        {{ form.username(class="form-control") }}
+                        {% for error in form.username.errors %}
+                            <span style="color: red;">{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                    <div>
+                        {{ form.email.label }}<br>
+                        {{ form.email(class="form-control") }}
+                        {% for error in form.email.errors %}
+                            <span style="color: red;">{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                    <div>
+                        {{ form.password.label }}<br>
+                        {{ form.password(class="form-control") }}
+                        {% for error in form.password.errors %}
+                            <span style="color: red;">{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                    <div>
+                        {{ form.confirm_password.label }}<br>
+                        {{ form.confirm_password(class="form-control") }}
+                        {% for error in form.confirm_password.errors %}
+                            <span style="color: red;">{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                    <div>
+                        {{ form.roles.label }}<br>
+                        {{ form.roles(class="form-control") }}
+                        {% for error in form.roles.errors %}
+                            <span style="color: red;">{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                    <div>
+                        {{ form.submit(class="btn btn-primary") }}
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+
+    <!-- Atlantis DEMO methods, don't include it in your project! -->
+    <script src="/static/assets/js/setting-demo2.js"></script>
+    
+	<script >
+		$(document).ready(function() {
+           
+        });
+    </script>
+
+{% endblock javascripts %}

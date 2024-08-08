@@ -1,0 +1,81 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} UI Forms {% endblock %} 
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+<div class="content">
+    <div class="page-inner">
+        <div class="page-header">
+            <h4 class="page-title">Users</h4>
+            <ul class="breadcrumbs">
+                <li class="nav-home">
+                    <a href="#">
+                        <i class="flaticon-home"></i>
+                    </a>
+                </li>
+                <li class="separator">
+                    <i class="flaticon-right-arrow"></i>
+                </li>
+                <li class="nav-item">
+                    <a href="{{url_for('account.index')}}">Accounts</a>
+                </li>
+                <li class="separator">
+                    <i class="flaticon-right-arrow"></i>
+                </li>
+                <li class="nav-item">
+                    <a href="#">Edit</a>
+                </li>
+            </ul>
+        </div>
+        <div class="row">
+            <div class="col-md-12 table-responsive">
+                <a href="{{ url_for('account.new_account') }}" class="btn btn-primary">New Account</a>
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Description</th>
+                        <th>Active</th>
+                        <th>Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for account in accounts %}
+                    <tr>
+                        <td>{{ account.id }}</td>
+                        <td>{{ account.name }}</td>
+                        <td>{{ account.description }}</td>
+                        <td>{{ 'Yes' if account.active else 'No' }}</td>
+                        <td>
+                            <a href="{{ url_for('account.edit_account', id=account.id) }}" class="btn btn-warning">Edit</a>
+                            <form action="{{ url_for('account.delete_account', id=account.id) }}" method="POST" style="display:inline;">
+                                <button type="submit" class="btn btn-danger">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+
+    <!-- Atlantis DEMO methods, don't include it in your project! -->
+    <script src="/static/assets/js/setting-demo2.js"></script>
+    
+	<script >
+		$(document).ready(function() {
+           
+        });
+    </script>
+
+{% endblock javascripts %}

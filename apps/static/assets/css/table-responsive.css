@@ -1,0 +1,9 @@
+@media screen and (max-width: 600px) {
+  }
+
+  td.mx-sm-0.px-sm-0 {
+    padding: 10px 0 10px 0 !important;
+}
+.card.d-block.d-lg-none.d-sm-block.mb-sm-0{
+  margin-bottom: 0 !important;
+}

@@ -1,0 +1,46 @@
+<script>
+        let messages = {'danger':[],'success':[],'warning':[]}
+    </script>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+		{% if messages %}		
+            {% for category, message in messages %}
+    <script>
+        messages['{{category}}'].push('{{ message}}')
+    </script>                
+            {% endfor %}
+		{% endif %}
+	{% endwith %}
+
+<script>
+    //== Class definition
+    // var SweetAlert2Demo = function() {
+
+    //     //== Demos
+    //     var initDemos = function() {
+            //== Sweetalert Demo 1
+            // $('#alert_demo_1').click(function(e) {
+                for (const key in messages) {
+                    if (messages.hasOwnProperty(key)) {  // Check for own properties (optional)
+                        const value = messages[key];
+                        // console.log(`Key: ${key}, Value: ${value}`);
+
+                        // Access and iterate over the value array (if applicable)
+                        if (Array.isArray(value)) {
+                            for (const item of value) {
+                                swal(item, {
+                                    buttons: {        			
+                                        confirm: {
+                                            className : `btn btn-${key}`
+                                        }
+                                    },
+                                });
+                                console.log(`${key}  - Sub-item: ${item}`);
+                            }
+                        }
+                    }
+                }
+                                
+            // });
+    //     }
+    // }
+</script>

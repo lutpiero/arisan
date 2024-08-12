@@ -74,12 +74,12 @@
                                 <thead>
                                     <tr>
                                         <th scope="col" class=" d-none d-lg-table-cell d-sm-none">ID</th>
-                                        <th scope="col" class=" d-none d-lg-table-cell d-sm-none">Transaction At</th>
-                                        <th scope="col" class=" d-none d-lg-table-cell d-sm-none">Owner</th>                                        
-                                        <th scope="col" class=" d-none d-lg-table-cell d-sm-none">Description</th>
-                                        <th scope="col" class=" d-none d-lg-table-cell d-sm-none">Debit</th>
-                                        <th scope="col" class=" d-none d-lg-table-cell d-sm-none">Credit</th>
-                                        <th scope="col" class=" d-none d-lg-table-cell d-sm-none">Action</th>
+                                        <th scope="col" class=" d-none d-lg-table-cell d-sm-none">{{ _('Transaction At') }}</th>
+                                        <th scope="col" class=" d-none d-lg-table-cell d-sm-none">{{ _('Account Holder') }}</th>                                        
+                                        <th scope="col" class=" d-none d-lg-table-cell d-sm-none">{{ _('Description') }}</th>
+                                        <th scope="col" class=" d-none d-lg-table-cell d-sm-none">{{ _('Debit') }}</th>
+                                        <th scope="col" class=" d-none d-lg-table-cell d-sm-none">{{ _('Credit') }}</th>
+                                        <th scope="col" class=" d-none d-lg-table-cell d-sm-none">{{ _('Action') }}</th>
                                     </tr>
                                 </thead>
                                 
@@ -94,7 +94,7 @@
                                                     <div class="h6">{{ trx.account }}</div>
                                                 </div>
                                                 <div class="card-body text-left">
-                                                    <div>{{ trx.trx_at|iso8601_to_time|datetimeformat(config['DATE_TIME_FORMAT']) }}</div>
+                                                    <div>{{ trx.trx_at | format_datetime('medium') }}</div>
                                                     <div class="h2 {% if trx.status == 'CONFIRMED' %} text-success {% else %} text-warning {% endif %}">{% if trx.debit %} {{ trx.debit | intcomma }} {% else %} {{ trx.credit | intcomma }} {% endif %}</div>
                                                     <div>{{ trx.status }}</div>
                                                     <div id="action-phone">            
@@ -110,11 +110,11 @@
                                                 </div>
                                             </div>
                                         </td>
-                                        <td class="text-sm-left d-none d-lg-table-cell d-sm-none">{{ trx.trx_at }}</td>
+                                        <td class="text-sm-left d-none d-lg-table-cell d-sm-none">{{ trx.trx_at | format_datetime('medium') }}</td>
                                         <td class="text-sm-left d-none d-lg-table-cell d-sm-none">{{ trx.owner }}</td>
                                         <td class="text-sm-left d-none d-lg-table-cell d-sm-none">{{ trx.description }}</td>
-                                        <td class="text-sm-right d-none d-lg-table-cell d-sm-none">{{ trx.debit | intcomma  }}</td>
-                                        <td class="text-sm-right d-none d-lg-table-cell d-sm-none">{{ trx.credit | intcomma  }}</td>
+                                        <td class="text-sm-right d-none d-lg-table-cell d-sm-none">{{ trx.debit | format_currency(currency,format='#,##')  }}</td>
+                                        <td class="text-sm-right d-none d-lg-table-cell d-sm-none">{{ trx.credit | format_currency(currency,format=currency_format)  }}</td>
                                         <td class="text-sm-left d-none d-lg-table-cell d-sm-none">
                                             <div class="form-button-action">
                                                 <a href="" type="button" data-toggle="tooltip" title="" class="btn btn-link btn-primary btn-lg" data-original-title="Edit User">

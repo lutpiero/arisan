@@ -3,6 +3,8 @@ from wtforms import StringField, FloatField, TextAreaField, DateTimeField, Selec
 from wtforms.validators import DataRequired
 from apps.authentication.models import Users
 from apps.treasurer.models import Account
+from flask_babel import lazy_gettext as _l
+
 
 def validate_at_least_one_field(form, field):
         if not form.credit.data and not form.debit.data:
@@ -17,7 +19,7 @@ class TransactionForm(FlaskForm):
     account_id = SelectField('Account', validators=[DataRequired()])
     status = StringField('Status', validators=[DataRequired()])
     owner_id = SelectField('Owner', coerce=int, validators=[DataRequired()])
-    treasurer_id = SelectField('Treasurer', coerce=int, validators=[DataRequired()])
+    treasurer_id = SelectField(_l('Treasurer'), coerce=int, validators=[DataRequired()])
     submit = SubmitField('Submit')
 
     def __init__(self, *args, **kwargs):

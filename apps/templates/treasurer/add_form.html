@@ -1,9 +1,12 @@
 <form method="POST" action="{{ url_for('treasurer.add_transaction') }}">
     {{ form.hidden_tag() }}
                        
-    
     <div class="form-group">
-        {{ form.debit.label }}
+        {{ _('Account Holder') }}
+        {{ form.owner_id(class="form-control") }}
+    </div>
+    <div class="form-group">
+        {{ _(form.debit.label) }}
         {{ form.debit(class="form-control") }}
     </div>
     <div class="form-group">
@@ -22,10 +25,7 @@
         {{ form.status.label }}
         {{ form.status(class="form-control") }}
     </div>
-    <div class="form-group">
-        {{ form.owner_id.label }}
-        {{ form.owner_id(class="form-control") }}
-    </div>
+    
     <div class="form-group">
         {{ form.treasurer_id.label }}
         {{ form.treasurer_id(class="form-control") }}

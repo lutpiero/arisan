@@ -4,7 +4,9 @@ Copyright (c) 2019 - present AppSeed.us
 """
 
 import os, random, string
+from dotenv import load_dotenv
 
+load_dotenv()
 class Config(object):
 
     basedir = os.path.abspath(os.path.dirname(__file__))
@@ -54,8 +56,12 @@ class Config(object):
 
         # This will create a file in <app> FOLDER
         SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(basedir, 'db.sqlite3') 
+    
     BABEL_DEFAULT_LOCALE = os.getenv('BABEL_DEFAULT_LOCALE','id_ID')
-    BABEL_SUPPORTED_LOCALES = os.getenv('BABEL_SUPPORTED_LOCALES',['id'])    
+    BABEL_SUPPORTED_LOCALES = os.getenv('BABEL_SUPPORTED_LOCALES',['id_ID'])    
+    BABEL_TRANSLATION_DIRECTORIES = os.getenv('BABEL_TRANSLATION_DIRECTORIES','translations')    
+    BABEL_DEFAULT_CURRENCY_FORMAT = os.getenv('BABEL_DEFAULT_CURRENCY_FORMAT',"¤#,##0")
+    
     DATE_TIME_FORMAT = os.getenv('DATE_TIME_FORMAT','')    
 class ProductionConfig(Config):
     DEBUG = False
@@ -64,6 +70,9 @@ class ProductionConfig(Config):
     SESSION_COOKIE_HTTPONLY = True
     REMEMBER_COOKIE_HTTPONLY = True
     REMEMBER_COOKIE_DURATION = 3600
+    # BABEL_DEFAULT_LOCALE = os.getenv('BABEL_DEFAULT_LOCALE','id_ID')
+    # BABEL_SUPPORTED_LOCALES = os.getenv('BABEL_SUPPORTED_LOCALES',['id_ID'])    
+    DATE_TIME_FORMAT = os.getenv('DATE_TIME_FORMAT','')    
 
 
 class DebugConfig(Config):
